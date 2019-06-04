@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c7d5jvhbk%sdyt=vllu0=aw*&uu^)2&$ez0a88g)(-0=9v)y9l'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -94,16 +96,7 @@ WSGI_APPLICATION = 'CS8.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cs8db',
-        'USER': 'postgres',
-        'PASSWORD': '14072017',
-        'HOST':'localhost',
-        'PORT':'5432'
-    }
-}
+
 
 
 # Password validation
@@ -143,3 +136,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+try:
+    from CS8.local_settings import *
+except ImportError:
+    pass
+if not DEBUG:
+    # c7d5jvhbk%sdyt=vllu0=aw*&uu^)2&$ez0a88g)(-0=9v)y9l
+    SECRET_KEY = 'SECRET_KEY'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'DB_NAME',
+            'USER': 'DB_USER',
+            'PASSWORD': 'DB_PASSWORD',
+            'HOST':'DB_HOST',
+            'PORT':'DB_PORT'
+        }
+    }
+
+    import django_heroku
+    django_heroku.settings(locals())
