@@ -141,6 +141,7 @@ try:
     from CS8.local_settings import *
 except ImportError:
     pass
+    
 if not DEBUG:
     # c7d5jvhbk%sdyt=vllu0=aw*&uu^)2&$ez0a88g)(-0=9v)y9l
     SECRET_KEY = 'SECRET_KEY'
